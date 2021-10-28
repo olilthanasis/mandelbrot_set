@@ -1,13 +1,12 @@
-'''complex(a,b) = (a+bi)
+'''
+complex(a,b) = (a+bi)
 f(z) = z^2 +c
 '''
 from PIL import Image
-a = int(2*160)
-
+a = int(2*1024)
 im = Image.new("RGB", (4*a, 2*a), "black")
 pixels = im.load()
 size = im.size
-
 z = 0
 xlst = list(range(-3*a,a))
 ylst = list(range(-a, a))
@@ -15,6 +14,8 @@ cs = []
 goodcs =[]
 def f(z,c) :
     return z**2 +c
+
+
 for x in xlst:
     x = x/a
     for y in ylst:
@@ -23,33 +24,34 @@ for x in xlst:
         cs.append(n)
 for k, c in enumerate(cs):
     z = 0
-    #print(int((k/len(cs))*1000)/10)
-    for i in range(1,50):
+    for i in range(1,100):
         z = f(z,c)
         if (z.imag ** 2 + z.real ** 2) > 4:
             break
 
     if (z.imag ** 2 + z.real ** 2) ** 0.5 < 2:
         goodcs.append(c)
-
-coords = []
+coordinates = []
 for i in goodcs:
-    coords.append([i.real,i.imag])
+    coordinates.append([i.real, i.imag])
 
-
-newcoords =[]
-for i  in coords:
-
+newcoordinates =[]
+for i  in coordinates:
     t = [int(i[0]*a +im.size[0]/2),int(im.size[1]/2 - i[1]*a)]
-    newcoords.append(t)
-print(newcoords)
+    newcoordinates.append(t)
 
 
-for i in range(im.size[0]): # for every pixel:
-    for j in range(im.size[1]):
-        if [i,j] in newcoords :
-            pixels[i,j] = (225,225,225)
+for i in newcoordinates:
+    try:
+        pixels[i[0],i[1] ] = (125, 125, 125)
+    except IndexError:
+        print(f"--->IndexError: {i}")
+        pass
 
 
 
-im.save("image.jpg")
+im.save("image2.png")
+
+
+
+
